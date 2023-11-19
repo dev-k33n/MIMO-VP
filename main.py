@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 from Models import get_model
-from Moving_mnist_dataset.moving_mnist import MovingMNIST
+from moving_mnist_main.moving_mnist.data import MovingMNIST
 from skimage.metrics import structural_similarity as ssim
 import os
 import cv2
@@ -39,11 +39,11 @@ parser.add_argument('--img_channel', type=int, default=1)
 
 args = parser.parse_args()
 
-mm = MovingMNIST(root=args.root, is_train=True, n_frames_input=10, n_frames_output=10, num_objects=[2])
+mm = MovingMNIST(root=args.root, n_in=10, n_out=10, n_obj=[2])
 train_loader = torch.utils.data.DataLoader(dataset=mm, batch_size=args.batch_size, shuffle=True, drop_last=True,
                                            num_workers=4)
 
-mm = MovingMNIST(root=args.root, is_train=False, n_frames_input=10, n_frames_output=10, num_objects=[2])
+mm = MovingMNIST(root=args.root, n_in=10, n_out=10, n_obj=[2])
 test_loader = torch.utils.data.DataLoader(dataset=mm, batch_size=16, shuffle=False, drop_last=True,
                                           num_workers=4)
 
